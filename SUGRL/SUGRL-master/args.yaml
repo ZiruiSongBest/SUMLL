@@ -1,7 +1,7 @@
 DEFAULT: &DEFAULT
   black_list: [4,5,6]
-  num_gpus_total: 8
-  num_gpus_to_use: 1
+  num_gpus_total: 1
+  num_gpus_to_use: 0
   verbose: 2
   save_plot: False
   val_interval: 1
