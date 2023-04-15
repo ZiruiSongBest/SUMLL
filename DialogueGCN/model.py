@@ -930,7 +930,7 @@ class CNNFeatureExtractor(nn.Module):
     def forward(self, x, umask):
         num_utt, batch, num_words = x.size()
 
-        x = x.type(LongTensor)  # (num_utt, batch, num_words)
+        x = x.type(torch.LongTensor)  # (num_utt, batch, num_words)
         x = x.view(-1, num_words)  # (num_utt, batch, num_words) -> (num_utt * batch, num_words)
         emb = self.embedding(x)  # (num_utt * batch, num_words) -> (num_utt * batch, num_words, 300)
         emb = emb.transpose(-2,
@@ -941,7 +941,7 @@ class CNNFeatureExtractor(nn.Module):
         concated = torch.cat(pooled, 1)
         features = F.relu(self.fc(self.dropout(concated)))  # (num_utt * batch, 150) -> (num_utt * batch, 100)
         features = features.view(num_utt, batch, -1)  # (num_utt * batch, 100) -> (num_utt, batch, 100)
-        mask = umask.unsqueeze(-1).type(FloatTensor)  # (batch, num_utt) -> (batch, num_utt, 1)
+        mask = umask.unsqueeze(-1).type(torch.FloatTensor)  # (batch, num_utt) -> (batch, num_utt, 1)
         mask = mask.transpose(0, 1)  # (batch, num_utt, 1) -> (num_utt, batch, 1)
         mask = mask.repeat(1, 1, self.feature_dim)  # (num_utt, batch, 1) -> (num_utt, batch, 100)
         features = (features * mask)  # (num_utt, batch, 100) -> (num_utt, batch, 100)
