@@ -101,8 +101,9 @@ def load_defaults_config():
     """
     Load defaults for training args.
     """
-    with open('diffuseq/config.json', 'r') as f:
+    with open('./', 'r') as f:
         return json.load(f)
+
 
 
 def create_model_and_diffusion(
